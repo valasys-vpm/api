@@ -20,16 +20,16 @@ class EmailController extends Controller
                 Mail::send(array(), array(), function ($email) use($request) {
 
                     //Send mail to
-                    $email->to(explode(',', $request->to));
+                    $email->to($request->to);
 
                     //send mail to CC
                     if($request->has('cc') && !empty($request->cc)) {
-                        $email->cc(explode(',', $request->cc));
+                        $email->cc($request->cc);
                     }
 
                     //send mail to CC
                     if($request->has('bcc') && !empty($request->bcc)) {
-                        $email->bcc(explode(',', $request->bcc));
+                        $email->bcc($request->bcc);
                     }
 
                     if($request->has('subject') && !empty($request->subject)) {
