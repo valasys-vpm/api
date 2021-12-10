@@ -17,5 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/api/get-token', [App\Http\Controllers\HomeController::class, 'getToken']);
+Route::get('/api/get-token', [App\Http\Controllers\HomeController::class, 'getToken']);
 Route::post('/api/email/send', [App\Http\Controllers\API\EmailController::class, 'send'])->name('send');

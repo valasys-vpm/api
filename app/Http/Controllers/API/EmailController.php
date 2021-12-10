@@ -15,27 +15,37 @@ class EmailController extends Controller
     public function send(Request $request)
     {
         try {
+            if($request->has('to')) {
 
-            Mail::send(array(), array(), function ($email) use($request) {
+                Mail::send(array(), array(), function ($email) use($request) {
 
-                //Send mail to
-                $email->to(explode(',', $request->to));
+                    //Send mail to
+                    $email->to(explode(',', $request->to));
 
-                //send mail to CC
-                if($request->has('cc') && !empty($request->cc)) {
-                    $email->cc($request->cc);
-                }
+                    //send mail to CC
+                    if($request->has('cc') && !empty($request->cc)) {
+                        $email->cc(explode(',', $request->cc));
+                    }
 
-                //send mail to CC
-                if($request->has('bcc') && !empty($request->bcc)) {
-                    $email->bcc($request->bcc);
-                }
+                    //send mail to CC
+                    if($request->has('bcc') && !empty($request->bcc)) {
+                        $email->bcc(explode(',', $request->bcc));
+                    }
 
-                $email->subject($request->subject);
+                    if($request->has('subject') && !empty($request->subject)) {
+                        $email->subject($request->subject);
+                    }
 
-                $email->setBody($request->body, 'text/html');
-                //->setBody('Hi, welcome user!'); // assuming text/plain
-            });
+                    if($request->has('body') && !empty($request->body)) {
+                        $email->setBody($request->body, 'text/html');
+                    }
+
+                    //->setBody('Hi, welcome user!'); // assuming text/plain
+                });
+
+            } else {
+                throw new \Exception('Invalid request', 1);
+            }
 
             return response()->json(array('status' => true, 'message' => 'Request processed successfully'));
         } catch (\Exception $exception) {
